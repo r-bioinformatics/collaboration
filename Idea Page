@@ -5,7 +5,16 @@ section with your name/identifier, and underneath that put whatever you want to 
 follow your ideas and thought processes as they develop.
 
 **Matt Moss**
--I don't have any concrete ideas yet, but I think something to do with the cancer genome atlas database
+- I don't have any concrete ideas yet, but I think something to do with the cancer genome atlas database
 could be a good starting point. There's a lot of raw/partially processed next-gen sequencing data that for
 sure still has interesting conclusions buried within it. I'd also say that doing something involving bam processing 
 could be worthwhile, but I don't know what
+
+**Mark van der Sman**
+- An analytical pipeline for genomics/transcriptomics accompanied with a dashboard might be awesome!
+No real application that I can think of except for something that lets you delve into the data and attach multiple sorts of datasets.
+- After some discussion on Slack:
+  1. A combination of genomics and transcriptomics seems preferred so far.
+  2. 3 general parts: DB, general middleware with breakout ML group (Deep Learning?), Visualisation.
+  3. Infrastructure/computing side MIGHT be possible through the cloud provider a member works at.
+  4. sc-RNA seq tools seem to be in demand.
