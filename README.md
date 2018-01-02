@@ -9,6 +9,10 @@ Here are the rules - which may be subject to change.
 How to do code review:
 
 How to propose new ideas:
+For now, it is best to put new ideas onto the project ideas page, following the
+instructions contained there. This page and the slack channel will be used for much of 
+our early brainstorming. As the ideas get more fleshed out, we'll create a folder
+for formal proposals. Until that point though, please use the ideas page. 
 
 How to join the project:
 
