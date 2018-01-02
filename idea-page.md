@@ -18,3 +18,11 @@ No real application that I can think of except for something that lets you delve
   2. 3 general parts: DB, general middleware with breakout ML group (Deep Learning?), Visualisation.
   3. Infrastructure/computing side MIGHT be possible through the cloud provider a member works at.
   4. sc-RNA seq tools seem to be in demand.
+
+**clintval**
+
+_Bioinformatics technical blogpost and tutorial aggregator._
+- A lot of educational resources exists by those in our field that are experts in certain domains. Many of them write posts on best practices, new tools, new findings. It would be great to have this content ready-to-server in one easy to navigate place.
+  - Content is provided by user submission
+  - Blog posts are tagged with domain of resource or tools used
+  - A simple click to vote could display more relevant or useful metered information
