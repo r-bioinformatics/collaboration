@@ -4,6 +4,15 @@ this could be a good space to put those during our discussion. For organization,
 section with your name/identifier, and underneath that put whatever you want to dicuss. This will allow others to 
 follow your ideas and thought processes as they develop.
 
+**Points from Slack discussion**
+1. We want to be able to support as many genomes/organisms as possible (eukaryotes?)
+2. We want a web server-based dashboard with interactive visualisation
+3. We want to be able to *at least* analyse RNA-seq data
+4. Combining this data with things like gene expression/COG/etc is also something mentioned multiple times
+
+<hr>
+**Suggestions:**
+
 **Matt Moss**
 - I don't have any concrete ideas yet, but I think something to do with the cancer genome atlas database
 could be a good starting point. There's a lot of raw/partially processed next-gen sequencing data that for
