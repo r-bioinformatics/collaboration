@@ -11,6 +11,7 @@ follow your ideas and thought processes as they develop.
 4. Combining this data with things like gene expression/COG/etc is also something mentioned multiple times
 
 <hr>
+
 **Suggestions:**
 
 **Matt Moss**
