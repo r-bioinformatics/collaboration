@@ -6,9 +6,11 @@ follow your ideas and thought processes as they develop.
 
 **Points from Slack discussion**
 1. We want to be able to support as many genomes/organisms as possible (eukaryotes?)
-2. We want a web server-based dashboard with interactive visualisation
+2. We want a localhost-based dashboard with interactive visualisation
 3. We want to be able to *at least* analyse RNA-seq data
 4. Combining this data with things like gene expression/COG/etc is also something mentioned multiple times
+5. **TO DISCUSS:** data will be read in using either DB's, flatfiles or both
+6. The analysis should be done either interactively using the dashboard, or more statically by calling the functions through a library
 
 <hr>
 
