@@ -38,3 +38,12 @@ _Bioinformatics technical blogpost and tutorial aggregator._
   - Content is provided by user submission
   - Blog posts are tagged with domain of resource or tools used
   - A simple click to vote could display more relevant or useful metered information
+  
+_A complete Python module for dataviz in genomics_
+- R has packages like it like `GenoPlotR` and `Sushi`, etc.
+- Would provide a consistent interactive Python API
+- Could be built to abstract away plotting library (matplotlib / bokeh / plotly)
+    - Similar to how graphics packages allow you to choose a back-end
+    - Would require some thoughtful engineering
+- Crowd favorite plots can be built first (topics included Sushi-plots, Circos wrappers)
+
