@@ -5,7 +5,7 @@ A simple plot for scattered x,y data.
 from svgwrite.shapes import Line
 from svgwrite.shapes import Circle
 from svgwrite.text import Text
-from libraries.SVG.histogram import Figure
+from SVG.base_figure import Figure
 
 
 class ScatterPlot(Figure):

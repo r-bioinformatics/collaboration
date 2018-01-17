@@ -3,7 +3,7 @@
 from svgwrite.shapes import Rect
 from svgwrite.text import Text
 import math
-from libraries.SVG.base_figure import Figure
+from SVG.base_figure import Figure
 
 
 class Histogram(Figure):

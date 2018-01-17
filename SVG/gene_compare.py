@@ -4,8 +4,8 @@ import statistics
 from svgwrite.shapes import Circle, Rect
 from svgwrite.text import Text
 from svgwrite.path import Path
-from libraries.SVG.base_figure import Figure
-from libraries.SVG.colour_helper import ColourHelper
+from SVG.base_figure import Figure
+from SVG.colour_helper import ColourHelper
 
 
 class GeneCompare(Figure):

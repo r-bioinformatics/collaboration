@@ -6,7 +6,7 @@ from svgwrite.drawing import Drawing
 from math import fabs
 
 import time
-from libraries.SVG.plot_utilities import add_cpg, get_axis, bigfont, medfont, smallfont, legend_color
+from SVG.plot_utilities import add_cpg, get_axis, bigfont, medfont, smallfont, legend_color
 
 
 class Plot(object):
