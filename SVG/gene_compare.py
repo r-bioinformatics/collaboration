@@ -59,7 +59,7 @@ class GeneCompare(Figure):
     def build(self, reset=True):
         self.assign_colours()
 
-        self.plottable_x = self.plottable_x - 150
+        self.plottable_x = self.plottable_x - 300
 
         self.add_legend()
 
