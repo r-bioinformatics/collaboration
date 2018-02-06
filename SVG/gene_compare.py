@@ -65,7 +65,7 @@ class GeneCompare(Figure):
 
         values = {}
 
-        # dats points
+        # data points
         for item in self.data:
             gene = item[0]
             category = self.legend[item[1]]['category']
@@ -132,15 +132,17 @@ class GeneCompare(Figure):
             sample_name = item[1]
             value = item[2]
             colour = self.legend[sample_name]['colour']
-            self.plot.add(Circle(center=(column_pos[gene],
-                                         self.margin_top + self.plottable_y -
-                                         self.scale_y(value, max_value, min_value)),
-                                 r=3,
-                                 stroke_width=0.1,
-                                 stroke_linecap='round',
-                                 stroke_opacity=1,
-                                 fill=colour,
-                                 fill_opacity=0.6))  # set to 0.2 if you want to show clear.
+            c = Circle(center=(column_pos[gene],
+                               self.margin_top + self.plottable_y -
+                               self.scale_y(value, max_value, min_value)),
+                       r=3,
+                       stroke_width=0.1,
+                       stroke_linecap='round',
+                       stroke_opacity=1,
+                       fill=colour,
+                       fill_opacity=0.6)  # set to 0.2 if you want to show clear.
+            c.set_desc(sample_name)
+            self.plot.add(c)
 
     def assign_colours(self):
         for sample_name in self.legend:
