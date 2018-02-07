@@ -1,6 +1,7 @@
 """Class for generating in-house Histograms"""
 
 import statistics
+from math import log10, log
 from svgwrite.shapes import Circle, Rect
 from svgwrite.text import Text
 from svgwrite.path import Path
@@ -12,7 +13,7 @@ class GeneCompare(Figure):
 
     def __init__(self, x_categories, width=1800, height=900, debug=False, gap=5, x_min=None, x_max=None,
                  y_min=0, y_max=0, margin_top=20, margin_bottom=155, margin_left=20, margin_right=20, x_label="x_label",
-                 y_label=None, graph_colour="black", background_colour="white"):
+                 y_label=None, graph_colour="black", background_colour="white", log_graph=False):
         Figure.__init__(self, width=width,
                         height=height,
                         margin_top=margin_top,
@@ -39,6 +40,7 @@ class GeneCompare(Figure):
         self.legend = {}
         self.colour_helper = ColourHelper()
         self.gene_list = []
+        self.log_graph = log_graph
 
     def add_data(self, x):
         self.data = x
@@ -54,12 +56,18 @@ class GeneCompare(Figure):
             self.gene_list.append(gene)
 
     def scale_y(self, value, max_value, min_value):
-        return float(self.plottable_y) * (value-min_value) / (max_value - min_value)
+        return float(self.plottable_y) * (value - min_value) / (max_value - min_value)
+
+    def scale_y_log(self, value, max_value, min_value):
+        v = value/min_value
+        if v < 1:
+            return 1
+        return float(self.plottable_y * log((value/min_value), (max_value/min_value)))
 
     def build(self, reset=True):
         self.assign_colours()
 
-        self.plottable_x = self.plottable_x - 300
+        self.plottable_x = self.plottable_x - 400
 
         self.add_legend()
 
@@ -76,7 +84,7 @@ class GeneCompare(Figure):
             values[gene][category].append(float(item[2]))
 
         max_value = -99999999999999
-        min_value = 0
+        min_value = 1 if self.log_graph else 0
         for gene in values:
             for category in values[gene]:
                 max_gene = max(values[gene][category])
@@ -89,7 +97,11 @@ class GeneCompare(Figure):
         for idx, gene in enumerate(self.gene_list):
             column_pos[gene] = ((idx+1) * self.plottable_x/(num_columns + 1)) + self.margin_left
 
-        self.plot_data(column_pos, max_value, min_value)
+        if self.log_graph:
+            self.plot_data(column_pos, log10(max_value), log10(min_value))
+        else:
+            self.plot_data(column_pos, max_value, min_value)
+
         self.add_x_column_labels(column_pos, self.gene_list, rotate=90)
         self.add_y_max_min(max_value, min_value)
         self.add_gausian_lines(column_pos, max_value, min_value, values)
@@ -117,7 +129,9 @@ class GeneCompare(Figure):
                                                      scale_x=scale_x,
                                                      scale_y=scale_y,
                                                      horizontal=False,
-                                                     median=median)
+                                                     median=median,
+                                                     max_value=max_value,
+                                                     min_value=min_value)
                     self.plot.add(Path(stroke=colour,
                                        stroke_width=2,
                                        stroke_linecap='round',
@@ -130,7 +144,14 @@ class GeneCompare(Figure):
         for item in self.data:
             gene = item[0]
             sample_name = item[1]
-            value = item[2]
+            real_value = item[2]
+            if self.log_graph:
+                value = log10(real_value)
+                if real_value < 1:
+                    continue
+            else:
+                value = real_value
+
             colour = self.legend[sample_name]['colour']
             c = Circle(center=(column_pos[gene],
                                self.margin_top + self.plottable_y -
@@ -141,7 +162,7 @@ class GeneCompare(Figure):
                        stroke_opacity=1,
                        fill=colour,
                        fill_opacity=0.6)  # set to 0.2 if you want to show clear.
-            c.set_desc(sample_name)
+            c.set_desc("{} - {} - {} - {}".format(sample_name, self.legend[sample_name]['category'], value, real_value))
             self.plot.add(c)
 
     def assign_colours(self):
@@ -163,7 +184,9 @@ class GeneCompare(Figure):
                                size=(8, 8),
                                fill=self.legend[sample_name]['colour']))
 
-    def calculate_gausian_curve(self, pos, height, stddev, scale_x, scale_y, horizontal=True, median=0, sigmas=3, shift=8):
+    def calculate_gausian_curve(self, pos, height, stddev, scale_x, scale_y, max_value, min_value,
+                                horizontal=True, median=0, sigmas=3,
+                                shift=8):
         """ path points will be at (-3stddev,0), (0,height), (3stddev,0)
             Control points at (-1stddev,0), (-1stddev,height), (1stddev,height), (1stddev,0)
          """
@@ -180,7 +203,11 @@ class GeneCompare(Figure):
         else:
             x_axis_values = [round(((pos - self.margin_left) * scale_x) + y
                                    + self.margin_left + shift, 2) for y in curve_heights]
-            y_temp = [(cd + median) * scale_y for cd in curve_dist]
+
+            if self.log_graph:
+                y_temp = [self.scale_y_log(cd + median, max_value, min_value) for cd in curve_dist]
+            else:
+                y_temp = [(cd + median) * scale_y for cd in curve_dist]
             y_axis_values = [round((self.margin_top + self.plottable_y - y2), 2) for y2 in y_temp]
 
         d = "M " + str(x_axis_values[0]) + "," + str(y_axis_values[0]) + " C"  # point 1
