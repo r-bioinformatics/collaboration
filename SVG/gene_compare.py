@@ -13,7 +13,7 @@ class GeneCompare(Figure):
 
     def __init__(self, x_categories, width=1800, height=900, debug=False, gap=5, x_min=None, x_max=None,
                  y_min=0, y_max=0, margin_top=20, margin_bottom=155, margin_left=20, margin_right=20, x_label="x_label",
-                 y_label=None, graph_colour="black", background_colour="white", log_graph=False):
+                 y_label=None, graph_colour="black", background_colour="white", log_graph=False, group_legend=False):
         Figure.__init__(self, width=width,
                         height=height,
                         margin_top=margin_top,
@@ -41,6 +41,7 @@ class GeneCompare(Figure):
         self.colour_helper = ColourHelper()
         self.gene_list = []
         self.log_graph = log_graph
+        self.group_legend = group_legend
 
     def add_data(self, x):
         self.data = x
@@ -69,7 +70,10 @@ class GeneCompare(Figure):
 
         self.plottable_x = self.plottable_x - 400
 
-        self.add_legend()
+        if self.group_legend:
+            self.add_group_legend()
+        else:
+            self.add_legend()
 
         values = {}
 
@@ -162,7 +166,7 @@ class GeneCompare(Figure):
                        stroke_opacity=1,
                        fill=colour,
                        fill_opacity=0.6)  # set to 0.2 if you want to show clear.
-            c.set_desc("{} - {} - {} - {}".format(sample_name, self.legend[sample_name]['category'], value, real_value))
+            c.set_desc("{} - {} - {}".format(sample_name, self.legend[sample_name]['category'], round(real_value), 2))
             self.plot.add(c)
 
     def assign_colours(self):
@@ -183,6 +187,27 @@ class GeneCompare(Figure):
                                        self.margin_top + self.plottable_y / 10 + (idx * 15) - 9),
                                size=(8, 8),
                                fill=self.legend[sample_name]['colour']))
+
+    def add_group_legend(self):
+        # legend:
+        #  collapse:
+        groups = set()
+        for sample_detail in self.legend.values():
+            category = sample_detail['category']
+            groups.add(category)
+
+        for idx, category in enumerate(sorted(groups)):
+            colour = self.colour_helper.get_category_colour(category)
+
+            self.plot.add(Text(category,
+                               insert=(self.margin_left + self.plottable_x + 10,
+                                       self.margin_top + self.plottable_y / 10 + (idx * 15)),
+                               fill=self.graph_colour,
+                               font_size="15"))
+            self.plot.add(Rect(insert=(self.margin_left + self.plottable_x,
+                                       self.margin_top + self.plottable_y / 10 + (idx * 15) - 9),
+                               size=(8, 8),
+                               fill=colour))
 
     def calculate_gausian_curve(self, pos, height, stddev, scale_x, scale_y, max_value, min_value,
                                 horizontal=True, median=0, sigmas=3,
