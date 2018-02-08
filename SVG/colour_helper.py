@@ -32,15 +32,19 @@ class ColourHelper(object):
             self.sample_index[category] = {}
         self.sample_index[category][sample_name] = colour
 
-    def add_sample(self, category, sample_name):
+    def add_sample(self, category, sample_name, category_group=False):
+
         if category not in self.sample_index:
             category_colour = COLOUR_INDEX[len(self.sample_index) % len(COLOUR_INDEX)]
             self.sample_index[category] = {'colour': category_colour}
         else:
             category_colour = self.sample_index[category]['colour']
 
-        select_colour = (len(self.sample_index[category])-1) % len(COLOURS[category_colour])
-        self.sample_index[category][sample_name] = COLOURS[category_colour][select_colour]
+        if category_group:
+            self.sample_index[category][sample_name] = category_colour
+        else:
+            select_colour = (len(self.sample_index[category])-1) % len(COLOURS[category_colour])
+            self.sample_index[category][sample_name] = COLOURS[category_colour][select_colour]
 
     def get_colour(self, category, sample_name):
         return self.sample_index[category][sample_name]

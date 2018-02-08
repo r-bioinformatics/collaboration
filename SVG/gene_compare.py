@@ -172,7 +172,7 @@ class GeneCompare(Figure):
     def assign_colours(self):
         for sample_name in self.legend:
             category = self.legend[sample_name]['category']
-            self.colour_helper.add_sample(category, sample_name)
+            self.colour_helper.add_sample(category, sample_name, category_group=self.group_legend)
             self.legend[sample_name]['colour'] = self.colour_helper.get_colour(category, sample_name)
 
     def add_legend(self):
