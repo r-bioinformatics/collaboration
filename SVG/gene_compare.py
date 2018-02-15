@@ -68,7 +68,7 @@ class GeneCompare(Figure):
     def build(self, reset=True):
         self.assign_colours()
 
-        self.plottable_x = self.plottable_x - 400
+        #self.plottable_x = self.plottable_x - 300
 
         if self.group_legend:
             self.add_group_legend()
@@ -179,11 +179,11 @@ class GeneCompare(Figure):
         # legend:
         for idx, sample_name in enumerate(sorted(self.legend)):
             self.plot.add(Text(sample_name + " [" + self.legend[sample_name]['category'] + "]",
-                               insert=(self.margin_left + self.plottable_x + 10,
+                               insert=(self.margin_left + self.plottable_x + 10 - 300,
                                        self.margin_top + self.plottable_y / 10 + (idx * 15)),
                                fill=self.graph_colour,
                                font_size="15"))
-            self.plot.add(Rect(insert=(self.margin_left + self.plottable_x,
+            self.plot.add(Rect(insert=(self.margin_left + self.plottable_x - 300,
                                        self.margin_top + self.plottable_y / 10 + (idx * 15) - 9),
                                size=(8, 8),
                                fill=self.legend[sample_name]['colour']))
