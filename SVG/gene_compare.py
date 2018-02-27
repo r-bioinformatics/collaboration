@@ -2,7 +2,7 @@
 
 import statistics
 from math import log10, log
-from svgwrite.shapes import Circle, Rect
+from svgwrite.shapes import Circle, Rect, Line
 from svgwrite.text import Text
 from svgwrite.path import Path
 from SVG.base_figure import Figure
@@ -102,7 +102,9 @@ class GeneCompare(Figure):
             column_pos[gene] = ((idx+1) * self.plottable_x/(num_columns + 1)) + self.margin_left
 
         if self.log_graph:
+            self.background_lines(max_value, log10(max_value), log10(min_value))
             self.plot_data(column_pos, log10(max_value), log10(min_value))
+
         else:
             self.plot_data(column_pos, max_value, min_value)
 
@@ -116,6 +118,16 @@ class GeneCompare(Figure):
         #                    fill="yellow", font_size="15"))
         if reset:
             self.data = None
+
+    def background_lines(self, max_data, log_max_value, log_min_value):
+        line = 1
+        while line < max_data:
+            plot_value = self.margin_top + self.plottable_y - self.scale_y(log10(line), log_max_value, log_min_value)
+
+            self.plot.add(Line(start=(self.margin_left, plot_value),
+                               end=(self.margin_left + self.plottable_x, plot_value),
+                               stroke_width=1, stroke="lightgrey"))
+            line *= 10
 
     def add_gausian_lines(self, column_pos, max_value, min_value, values):
         for gene in values:
