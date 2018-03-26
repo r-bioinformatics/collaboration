@@ -66,7 +66,7 @@ class Figure(object):
 
     def add_y_label(self):
         y_coord = self.margin_top + (self.plottable_y/2)
-        text_group = Group(transform="rotate({},{},{})".format("90", "2", y_coord))
+        text_group = Group(transform=f"rotate({'90'},{'2'},{y_coord})")
 
         text_group.add(Text(self.y_label, insert=(2, y_coord), fill=self.graph_colour, font_size="15", stroke_width=0))
 
@@ -85,8 +85,8 @@ class Figure(object):
 
     def add_x_column_labels(self, column_positions, column_labels, rotate=None):
         for gene in column_labels:
-            text_group = Group(transform="rotate({},{},{})".format(rotate if rotate else 0, column_positions[gene],
-                                                                   self.margin_top + self.plottable_y + 17))
+            text_group = Group(transform=f"rotate({rotate if rotate else 0},{column_positions[gene]},"
+                                         f"{self.margin_top + self.plottable_y + 17})")
 
             text_group.add(Text(gene, insert=(column_positions[gene], self.margin_top + self.plottable_y + 17),
                                 fill=self.graph_colour, font_size="15", stroke_width=0))

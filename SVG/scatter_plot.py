@@ -49,7 +49,7 @@ class ScatterPlot(Figure):
                            stroke_width=1, stroke=self.graph_colour))
 
         self.plot.add(
-            Text("Slope = {}".format(round(slope, 4)),
+            Text(f"Slope = {round(slope, 4)}",
                  insert=(self.plottable_x + self.margin_left - 200, self.margin_top + 15),
                  fill=self.graph_colour, font_size="15"))
 

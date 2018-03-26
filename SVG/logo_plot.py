@@ -2,14 +2,13 @@
 
 from svgwrite.shapes import Rect
 from svgwrite.text import Text
-import math
 from SVG.base_figure import Figure
 
 
-class Histogram(Figure):
+class Logo(Figure):
 
     def __init__(self, units_per_bin, width=800, height=600, debug=False, gap=5, x_min=None, x_max=None, y_min=0,
-                 y_max=0, margin_top=20, margin_bottom=40, margin_left=20, margin_right=20, x_label="x_label",
+                 y_max=0, margin_top=20, margin_bottom=40, margin_left=20, margin_right=20, x_label=None,
                  graph_colour="midnight_blue"):
         Figure.__init__(self, width=width,
                         height=height,
@@ -34,42 +33,34 @@ class Histogram(Figure):
         self.binned_data = None
         self.x_label = x_label
 
-    def add_data(self, x):
-        self.data = x
+        self.alphabet = []
 
-    def add_data_point(self, x):
-        self.data.append(x)
+    def data_as_dicts(self, alphabet, data):
+        self.alphabet = alphabet  # ordered list of alphabet symbols
+        self.data = data
 
-    def bin_data(self):
-        if not self.data:
-            return False
-
-        if self.x_max is None:
-            self.x_max = math.ceil(max(self.data))
-        if self.x_min is None:
-            self.x_min = math.floor(min(self.data))
-        how_many_bins = int(math.ceil((float(self.x_max) - self.x_min) / self.units_per_bin))
-
-        self.binned_data = {}
-        for i in range(how_many_bins):
-            self.binned_data[i] = 0
-
-        for x in self.data:
-            if x > self.x_max:
-                continue
-            bin_num = int(math.floor((x - self.x_min)/self.units_per_bin))
-            self.binned_data[bin_num] += 1  # floored division.
-        for i in range(how_many_bins):
-            print(f"{(i * self.units_per_bin) + self.x_min} {self.binned_data[i]}")
-        self.data_max = max(self.binned_data.values())
-        return True
+    def data_as_lists(self, alphabet, data):
+        self.alphabet = alphabet
+        self.data = data
 
     def build(self):
-        bin_count = len(self.binned_data) + 1
+        bin_count = len(self.data) + 1
         bin_width = (self.plottable_x - (bin_count + 1) + self.gap) // bin_count  # floored division
         if bin_width < 1:
             bin_width = 1
-        for i in range(len(self.binned_data)):
+        for i in range(len(self.data)):
+
+            for letter in self.alphabet:
+                size = float(self.data[letter]) * self.plottable_y
+                self.plot.add(Text(letter),
+                              insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
+                                      self.plottable_y + self.margin_top + 20),
+                              fill="yellow", height=size)
+
+
+
+
+
             self.plot.add(Rect(insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
                                        (self.margin_top + self.plottable_y) - ((float(self.binned_data[i])
                                                                                 / self.data_max) * self.plottable_y)),

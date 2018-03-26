@@ -133,7 +133,7 @@ class Plot(object):
         for element in self.elements:
             temp.append(element.tostring())
         temp.append("</svg>")
-        print(" Conversion of SVG to string took {} seconds".format(time.time() - t0))
+        print(f" Conversion of SVG to string took {time.time() - t0} seconds")
         return ''.join(t for t in temp)
 
     def get_xml(self):

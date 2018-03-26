@@ -178,7 +178,7 @@ class GeneCompare(Figure):
                        stroke_opacity=1,
                        fill=colour,
                        fill_opacity=0.6)  # set to 0.2 if you want to show clear.
-            c.set_desc("{} - {} - {}".format(sample_name, self.legend[sample_name]['category'], round(real_value), 2))
+            c.set_desc(f"{sample_name} - {self.legend[sample_name]['category']} - {round(real_value)}")
             self.plot.add(c)
 
     def assign_colours(self):
