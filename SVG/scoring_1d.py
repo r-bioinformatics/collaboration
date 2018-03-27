@@ -49,8 +49,6 @@ class ScoringGraphic(Figure):
         if not self.min_value:
             self.min_value = min([x['score'] for x in self.annotated_scores.values()])
 
-        print(f"Max value:{self.max_value}, Min value: {self.min_value}")
-
         if not self.show_legend:
             self.plot.add(Text("Fibroblasts",
                           insert=(self.margin_left, self.margin_top-5),
