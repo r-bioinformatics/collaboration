@@ -3,25 +3,27 @@ from svgwrite.shapes import Rect
 BIG_FONT = 20
 MED_FONT = 14
 SMALL_FONT = 10
-legend_color = 'black'
+LEGEND_COLOUR = 'black'
+
+# pylint: disable=R0914
 
 
 def get_axis(width, margin, height, bottom_margin, right_margin):
-    """leave "margin" on either side of the image, draw the axes along the 
+    """leave "margin" on either side of the image, draw the axes along the
     boundaries of the margin."""
     margin = margin
     height = height
     x_axis = Rect(insert=(margin, height - bottom_margin),
                   size=(width - (margin + right_margin), 1),
-                  fill=legend_color)
+                  fill=LEGEND_COLOUR)
     y_axis = Rect(insert=(margin, margin),
                   size=(1, height - (margin + bottom_margin)),
                   # viewing area is the height, minus the top margin and bottom margin.
-                  fill=legend_color)
+                  fill=LEGEND_COLOUR)
     y_axis2 = Rect(insert=(width - right_margin, margin),
                    size=(1, height - (margin + bottom_margin)),
                    # viewing area is the height, minus the top margin and bottom margin.
-                   fill=legend_color)
+                   fill=LEGEND_COLOUR)
     return x_axis, y_axis, y_axis2
 
 
@@ -38,7 +40,7 @@ def add_cpg(annotations, margin, height, scale_x, start, end, bottom_margin):
             island_start = start
         if island_end > end:
             island_end = end
-        x1 = margin + (island_start - start) * scale_x
+        x_position = margin + (island_start - start) * scale_x
         thickness = (island_end - island_start) * scale_x
 
         if 'IC' in colour_type:
@@ -50,7 +52,7 @@ def add_cpg(annotations, margin, height, scale_x, start, end, bottom_margin):
         else:
             color = 'white'
             opacity = 0
-        island = Rect(insert=(x1, margin),
+        island = Rect(insert=(x_position, margin),
                       size=(thickness, height - margin - bottom_margin),
                       fill=color,
                       fill_opacity=opacity)

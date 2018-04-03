@@ -142,22 +142,22 @@ class GeneCompare(Figure):
                     colour = self.colour_helper.get_category_colour(category)
                     scale_x = 1
                     scale_y = float(self.plottable_y) / (max_value - min_value)
-                    d = self.calculate_gausian_curve(pos=column_pos[gene],
-                                                     height=30,
-                                                     stddev=stddev,
-                                                     scale_x=scale_x,
-                                                     scale_y=scale_y,
-                                                     horizontal=False,
-                                                     median=median,
-                                                     max_value=max_value,
-                                                     min_value=min_value)
+                    gausian_curve_path = self.calculate_gausian_curve(pos=column_pos[gene],
+                                                                      height=30,
+                                                                      stddev=stddev,
+                                                                      scale_x=scale_x,
+                                                                      scale_y=scale_y,
+                                                                      horizontal=False,
+                                                                      median=median,
+                                                                      max_value=max_value,
+                                                                      min_value=min_value)
                     self.plot.add(Path(stroke=colour,
                                        stroke_width=2,
                                        stroke_linecap='round',
                                        stroke_opacity=0.5,
                                        fill=colour,
                                        fill_opacity=0.1,
-                                       d=d))
+                                       d=gausian_curve_path))
 
     def plot_data(self, column_pos, max_value, min_value):
         for item in self.data:
@@ -254,9 +254,3 @@ class GeneCompare(Figure):
         for i in range(1, 7):
             d_string += " " + str(x_axis_values[i]) + "," + str(y_axis_values[i])
         return d_string
-
-    def save(self, reset=True):
-        super().save(reset)
-
-    def set_filename(self, filename):
-        super().set_filename(filename)

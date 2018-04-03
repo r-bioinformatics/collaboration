@@ -1,11 +1,11 @@
 """Class for generating in-house Histograms"""
 
+import math
 from svgwrite.shapes import Rect
 from svgwrite.text import Text
-import math
 from SVG.base_figure import Figure
 
-# pylint: dissable=R0902,R0914
+# pylint: disable=R0902,R0914
 
 
 class Histogram(Figure):
@@ -88,9 +88,3 @@ class Histogram(Figure):
                                font_size="15"))
             self.plot.add(Text(str()))
         self.data = None
-
-    def save(self, reset=True):
-        super().save(reset)
-
-    def set_filename(self, filename):
-        super().set_filename(filename)

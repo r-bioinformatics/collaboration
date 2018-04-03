@@ -59,10 +59,10 @@ class ScoringGraphic(Figure):
         delta = self.max_value - self.min_value
         plottable = self.width - (self.margin_left + self.margin_right)
 
-        n = {"Fibroblasts": INIT_GAP,
-             "Cardiomyocytes": INIT_GAP,
-             "Experimental": INIT_GAP,
-             "other": INIT_GAP}
+        spacing = {"Fibroblasts": INIT_GAP,
+                   "Cardiomyocytes": INIT_GAP,
+                   "Experimental": INIT_GAP,
+                   "other": INIT_GAP}
 
         for sample, sample_details in self.annotated_scores.items():
 
@@ -83,24 +83,18 @@ class ScoringGraphic(Figure):
                 continue
                 # sample_type = "other"
 
-            c = Circle(center=(position, self.margin_top + n[sample_type] + 5),
-                       r=3,
-                       stroke_width=0.1,
-                       stroke_linecap='round',
-                       stroke_opacity=1,
-                       fill=colour,
-                       fill_opacity=0.6)  # set to 0.2 if you want to show clear.
-            c.set_desc('{} - {} - {}'.format(sample, sample_type,
-                                             sample_details["score"] if "description" not in sample_details
-                                             else sample_details["description"]))
-            self.plot.add(c)
+            circle_obj = Circle(center=(position, self.margin_top + spacing[sample_type] + 5),
+                                r=3,
+                                stroke_width=0.1,
+                                stroke_linecap='round',
+                                stroke_opacity=1,
+                                fill=colour,
+                                fill_opacity=0.6)  # set to 0.2 if you want to show clear.
+            circle_obj.set_desc('{} - {} - {}'.format(sample, sample_type,
+                                                      sample_details["score"] if "description" not in sample_details
+                                                      else sample_details["description"]))
+            self.plot.add(circle_obj)
             if sample_type == "other":
-                n[sample_type] += 3
+                spacing[sample_type] += 3
             else:
-                n[sample_type] += 6
-
-    def save(self, reset=True):
-        super().save(reset)
-
-    def set_filename(self, filename):
-        super().set_filename(filename)
+                spacing[sample_type] += 6

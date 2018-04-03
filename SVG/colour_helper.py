@@ -18,7 +18,7 @@ COLOURS = {'red': ['#a30000', '#730000', '#b80000', '#660000', '#cc0000', '#5200
            'orange': ['#8f5d00', '#a36a00', '#b87700', '#7a5000', '#cc8500', '#664200', '#e09200', '#523500',
                       '#f59f00', '#3d2800', '#ffa500']}
 
-COLOUR_INDEX = [colour for colour in COLOURS.keys()]
+COLOUR_INDEX = [colour for colour in COLOURS]
 
 
 class ColourHelper(object):

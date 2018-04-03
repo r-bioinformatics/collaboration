@@ -74,9 +74,3 @@ class Logo(Figure):
                                font_size="15"))
             self.plot.add(Text(str()))
         self.data = None
-
-    def save(self, reset=True):
-        super().save(reset)
-
-    def set_filename(self, filename):
-        super().set_filename(filename)

@@ -4,6 +4,8 @@ from svgwrite.text import Text
 from svgwrite.drawing import Drawing
 from svgwrite.container import Group
 
+# pylint: disable=R0902,R0914
+
 
 class Figure(object):
 
@@ -93,10 +95,10 @@ class Figure(object):
             self.plot.add(text_group)
 
     def to_string(self, reset=True):
-        z = self.plot.tostring()
+        string_value = self.plot.tostring()
         if reset:
             self.plot = None
-        return z
+        return string_value
 
     def add_max_min_text(self):
         self.plot.add(

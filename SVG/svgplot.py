@@ -4,7 +4,7 @@ from svgwrite.shapes import Rect
 from svgwrite.text import Text
 from svgwrite.drawing import Drawing
 
-from SVG.plot_utilities import add_cpg, get_axis, BIG_FONT, MED_FONT, SMALL_FONT, legend_color
+from SVG.plot_utilities import add_cpg, get_axis, BIG_FONT, MED_FONT, SMALL_FONT, LEGEND_COLOUR
 
 
 # pylint: disable=R0902
@@ -149,7 +149,7 @@ class Plot(object):
 
         title = Text(self.title, insert=(BIG_FONT + ((float(self.MARGIN) - BIG_FONT) / 3),
                                          BIG_FONT + ((float(self.MARGIN) - BIG_FONT) / 3)),
-                     fill=legend_color, font_size=BIG_FONT)
+                     fill=LEGEND_COLOUR, font_size=BIG_FONT)
         self.elements.append(title)
 
         for axis in get_axis(self.width, self.MARGIN, self.height, self.BOTTOM_MARGIN, self.RIGHT_MARGIN):
@@ -181,12 +181,12 @@ class Plot(object):
         for tic in xtics:
             tic_x = (self.MARGIN + (tic - self.start) * self.scale_x)
             tic_y = self.height - self.BOTTOM_MARGIN + SMALL_FONT * 1.5
-            ticmarker = (Text(str(tic), insert=(tic_x, tic_y), fill=legend_color, font_size=SMALL_FONT))
-            ticline = Rect(insert=(tic_x, self.height - self.BOTTOM_MARGIN - 2), size=(1, 5), fill=legend_color)
+            ticmarker = (Text(str(tic), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
+            ticline = Rect(insert=(tic_x, self.height - self.BOTTOM_MARGIN - 2), size=(1, 5), fill=LEGEND_COLOUR)
             for i in range(1, 4):
                 if tic_x - spacing * i > self.MARGIN - 5:
                     ticline2 = Rect(insert=(tic_x - spacing * i, self.height - self.BOTTOM_MARGIN - 2), size=(1, 2),
-                                    fill=legend_color)
+                                    fill=LEGEND_COLOUR)
                     self.elements.append(ticline2)
             self.elements.append(ticline)
             self.elements.append(ticmarker)
@@ -200,9 +200,9 @@ class Plot(object):
         ytics = [round(self.height - self.BOTTOM_MARGIN - (self.dimension_y / 5 * y), 3) for y in range(0, 6)]
         spacing = (ytics[0] - ytics[1]) / 2
         for tic, label in zip(ytics, labels):
-            ticline = Rect(insert=(self.MARGIN - 2, tic), size=(5, 1), fill=legend_color)
+            ticline = Rect(insert=(self.MARGIN - 2, tic), size=(5, 1), fill=LEGEND_COLOUR)
             if tic - spacing > self.MARGIN:
-                ticline2 = Rect(insert=(self.MARGIN - 2, tic - spacing), size=(2, 1), fill=legend_color)
+                ticline2 = Rect(insert=(self.MARGIN - 2, tic - spacing), size=(2, 1), fill=LEGEND_COLOUR)
                 self.elements.append(ticline2)
             tic_x = self.MARGIN - SMALL_FONT * 2
             tic_y = tic + 1
@@ -212,7 +212,7 @@ class Plot(object):
                 tic_x += 2
             if len(str(label)) >= 3:
                 tic_x -= 10
-            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=legend_color, font_size=SMALL_FONT))
+            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
             self.elements.append(ticline)
             self.elements.append(ticmarker)
 
@@ -223,9 +223,9 @@ class Plot(object):
         spacing = (ytics[0] - ytics[1]) / 2
         for tic, label in zip(ytics, labels):
 
-            ticline = Rect(insert=(self.width - self.RIGHT_MARGIN, tic), size=(5, 1), fill=legend_color)
+            ticline = Rect(insert=(self.width - self.RIGHT_MARGIN, tic), size=(5, 1), fill=LEGEND_COLOUR)
             if tic - spacing > self.MARGIN:
-                ticline2 = Rect(insert=(self.width - self.RIGHT_MARGIN, tic - spacing), size=(2, 1), fill=legend_color)
+                ticline2 = Rect(insert=(self.width - self.RIGHT_MARGIN, tic - spacing), size=(2, 1), fill=LEGEND_COLOUR)
                 self.elements.append(ticline2)
             tic_x = self.width - self.RIGHT_MARGIN + SMALL_FONT
             tic_y = tic + 1
@@ -233,7 +233,7 @@ class Plot(object):
                 tic_x += 3
             if len(str(label)) == 2:
                 tic_x += 2
-            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=legend_color, font_size=SMALL_FONT))
+            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
             self.elements.append(ticline)
             self.elements.append(ticmarker)
 
@@ -261,7 +261,7 @@ class Plot(object):
                 g_rect = Rect(insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 4),
                               size=(length, 2), fill="grey")
                 g_text = (Text(text, insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 9),
-                               fill=legend_color, font_size=SMALL_FONT))
+                               fill=LEGEND_COLOUR, font_size=SMALL_FONT))
                 self.elements.append(g_rect)
                 self.elements.append(g_text)
 
