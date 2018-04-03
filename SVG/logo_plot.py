@@ -4,7 +4,9 @@ from svgwrite.shapes import Rect
 from svgwrite.text import Text
 from SVG.base_figure import Figure
 
+
 # pylint: disable=R0902,R0914
+
 
 class Logo(Figure):
 
@@ -53,10 +55,10 @@ class Logo(Figure):
 
             for letter in self.alphabet:
                 size = float(self.data[letter]) * self.plottable_y
-                self.plot.add(Text(letter),
-                              insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
-                                      self.plottable_y + self.margin_top + 20),
-                              fill="yellow", height=size)
+                self.plot.add(Text(letter,
+                                   insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
+                                           self.plottable_y + self.margin_top + 20),
+                                   fill="yellow", height=size))
 
             self.plot.add(Rect(insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
                                        (self.margin_top + self.plottable_y) - ((float(self.binned_data[i])
