@@ -9,6 +9,9 @@ from SVG.base_figure import Figure
 from SVG.colour_helper import ColourHelper
 
 
+# pylint: disable=R0902,R0914
+
+
 class GeneCompare(Figure):
 
     def __init__(self, x_categories, width=1800, height=900, debug=False, gap=5, x_min=None, x_max=None,
@@ -43,8 +46,8 @@ class GeneCompare(Figure):
         self.log_graph = log_graph
         self.group_legend = group_legend
 
-    def add_data(self, x):
-        self.data = x
+    def add_data(self, new_data_struct):
+        self.data = new_data_struct
 
     def add_legend_point(self, sample_name, category, sample_num):
         self.legend[sample_name] = {'colour': None,
@@ -60,10 +63,10 @@ class GeneCompare(Figure):
         return float(self.plottable_y) * (value - min_value) / (max_value - min_value)
 
     def scale_y_log(self, value, max_value, min_value):
-        v = value/min_value
-        if v < 1:
+        new_value = value / min_value
+        if new_value < 1:
             return 1
-        return float(self.plottable_y * log((value/min_value), (max_value/min_value)))
+        return float(self.plottable_y * log((value / min_value), (max_value / min_value)))
 
     def build(self, reset=True):
         self.assign_colours()
@@ -99,7 +102,7 @@ class GeneCompare(Figure):
         num_columns = len(self.gene_list)
         column_pos = {}
         for idx, gene in enumerate(self.gene_list):
-            column_pos[gene] = ((idx+1) * self.plottable_x/(num_columns + 1)) + self.margin_left
+            column_pos[gene] = ((idx + 1) * self.plottable_x / (num_columns + 1)) + self.margin_left
 
         if self.log_graph:
             self.background_lines(max_value, log10(max_value), log10(min_value))
@@ -169,17 +172,17 @@ class GeneCompare(Figure):
                 value = real_value
 
             colour = self.legend[sample_name]['colour']
-            c = Circle(center=(column_pos[gene],
-                               self.margin_top + self.plottable_y -
-                               self.scale_y(value, max_value, min_value)),
-                       r=3,
-                       stroke_width=0.1,
-                       stroke_linecap='round',
-                       stroke_opacity=1,
-                       fill=colour,
-                       fill_opacity=0.6)  # set to 0.2 if you want to show clear.
-            c.set_desc(f"{sample_name} - {self.legend[sample_name]['category']} - {round(real_value)}")
-            self.plot.add(c)
+            cirlce_obj = Circle(center=(column_pos[gene],
+                                        self.margin_top + self.plottable_y -
+                                        self.scale_y(value, max_value, min_value)),
+                                r=3,
+                                stroke_width=0.1,
+                                stroke_linecap='round',
+                                stroke_opacity=1,
+                                fill=colour,
+                                fill_opacity=0.6)  # set to 0.2 if you want to show clear.
+            cirlce_obj.set_desc(f"{sample_name} - {self.legend[sample_name]['category']} - {round(real_value)}")
+            self.plot.add(cirlce_obj)
 
     def assign_colours(self):
         for sample_name in self.legend:
@@ -247,10 +250,10 @@ class GeneCompare(Figure):
                 y_temp = [(cd + median) * scale_y for cd in curve_dist]
             y_axis_values = [round((self.margin_top + self.plottable_y - y2), 2) for y2 in y_temp]
 
-        d = "M " + str(x_axis_values[0]) + "," + str(y_axis_values[0]) + " C"  # point 1
+        d_string = "M " + str(x_axis_values[0]) + "," + str(y_axis_values[0]) + " C"  # point 1
         for i in range(1, 7):
-            d += " " + str(x_axis_values[i]) + "," + str(y_axis_values[i])
-        return d
+            d_string += " " + str(x_axis_values[i]) + "," + str(y_axis_values[i])
+        return d_string
 
     def save(self, reset=True):
         super().save(reset)

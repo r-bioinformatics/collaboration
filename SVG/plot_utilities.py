@@ -1,8 +1,8 @@
 from svgwrite.shapes import Rect
 
-bigfont = 20
-medfont = 14
-smallfont = 10
+BIG_FONT = 20
+MED_FONT = 14
+SMALL_FONT = 10
 legend_color = 'black'
 
 
@@ -33,18 +33,18 @@ def add_cpg(annotations, margin, height, scale_x, start, end, bottom_margin):
 
     color_high = 'darkseagreen'
     color_low = 'deepskyblue'
-    for ((a, b), c) in annotations['Islands']:
-        if a < start:
-            a = start
-        if b > end:
-            b = end
-        x1 = margin + (a - start) * scale_x
-        thickness = (b - a) * scale_x
+    for ((island_start, island_end), colour_type) in annotations['Islands']:
+        if island_start < start:
+            island_start = start
+        if island_end > end:
+            island_end = end
+        x1 = margin + (island_start - start) * scale_x
+        thickness = (island_end - island_start) * scale_x
 
-        if 'IC' in c:
+        if 'IC' in colour_type:
             color = color_low
             opacity = 0.2
-        elif 'HC' in c:
+        elif 'HC' in colour_type:
             color = color_high
             opacity = 0.2
         else:

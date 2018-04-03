@@ -37,15 +37,15 @@ class ScatterPlot(Figure):
     def add_zero_based_regression(self, slope):
         """place a regression line on the plot."""
         self.max_min()
-        x = self.x_max
-        y = slope * x
+        x_value = self.x_max
+        y_value = slope * x_value
 
-        if y > self.y_max:
-            y = self.y_max
-            x = y / slope
+        if y_value > self.y_max:
+            y_value = self.y_max
+            x_value = y_value / slope
 
         self.plot.add(Line(start=(self.margin_left, self.margin_top + self.plottable_y),
-                           end=(self.x_to_printx(x), self.y_to_printy(y)),
+                           end=(self.x_to_printx(x_value), self.y_to_printy(y_value)),
                            stroke_width=1, stroke=self.graph_colour))
 
         self.plot.add(
@@ -66,11 +66,11 @@ class ScatterPlot(Figure):
         """Find Max values for x and y dimensions"""
         self.x_max = self.data[0][0]
         self.y_max = self.data[0][1]
-        for x, y in self.data:
-            if x > self.x_max:
-                self.x_max = x
-            if y > self.y_max:
-                self.y_max = y
+        for x_value, y_value in self.data:
+            if x_value > self.x_max:
+                self.x_max = x_value
+            if y_value > self.y_max:
+                self.y_max = y_value
         # print("max x y : {} {}".format(self.x_max, self.y_max))y_max
 
     def build(self):

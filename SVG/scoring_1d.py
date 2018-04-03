@@ -1,4 +1,3 @@
-
 from svgwrite.shapes import Line, Circle
 from svgwrite.text import Text
 from SVG.base_figure import Figure
@@ -42,8 +41,8 @@ class ScoringGraphic(Figure):
     def plot_data(self):
         if not self.show_legend:
             self.plot.add(Line(start=(self.margin_left, self.margin_top),
-                          end=(self.width-self.margin_right, self.margin_top),
-                          stroke_width=1, stroke="black"))
+                               end=(self.width - self.margin_right, self.margin_top),
+                               stroke_width=1, stroke="black"))
 
         self.max_value = max([x['score'] for x in self.annotated_scores.values()])
         if not self.min_value:
@@ -51,11 +50,11 @@ class ScoringGraphic(Figure):
 
         if not self.show_legend:
             self.plot.add(Text("Fibroblasts",
-                          insert=(self.margin_left, self.margin_top-5),
-                          fill="black", font_size="15"))
+                               insert=(self.margin_left, self.margin_top - 5),
+                               fill="black", font_size="15"))
             self.plot.add(Text("Cardiomyocytes",
-                          insert=(self.width-self.margin_right-100, self.margin_top-5),
-                          fill="black", font_size="15"))
+                               insert=(self.width - self.margin_right - 100, self.margin_top - 5),
+                               fill="black", font_size="15"))
 
         delta = self.max_value - self.min_value
         plottable = self.width - (self.margin_left + self.margin_right)
@@ -67,7 +66,7 @@ class ScoringGraphic(Figure):
 
         for sample, sample_details in self.annotated_scores.items():
 
-            position = self.margin_left + ((sample_details['score'] - self.min_value)/delta * plottable)
+            position = self.margin_left + ((sample_details['score'] - self.min_value) / delta * plottable)
             # colour = "grey"
             if "category" in sample_details:
                 sample_type = sample_details["category"]

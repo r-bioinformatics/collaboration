@@ -4,6 +4,7 @@ from svgwrite.shapes import Rect
 from svgwrite.text import Text
 from SVG.base_figure import Figure
 
+# pylint: disable=R0902,R0914
 
 class Logo(Figure):
 
@@ -57,10 +58,6 @@ class Logo(Figure):
                                       self.plottable_y + self.margin_top + 20),
                               fill="yellow", height=size)
 
-
-
-
-
             self.plot.add(Rect(insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
                                        (self.margin_top + self.plottable_y) - ((float(self.binned_data[i])
                                                                                 / self.data_max) * self.plottable_y)),
@@ -71,10 +68,10 @@ class Logo(Figure):
                                        self.plottable_y + self.margin_top + 20),
                                fill="yellow", font_size="15"))
             self.plot.add(Text(self.x_label,
-                          insert=(self.plottable_x/2,
-                                  self.plottable_y + self.margin_top + (self.margin_bottom/2) + 15),
-                          fill="yellow",
-                          font_size="15"))
+                               insert=(self.plottable_x / 2,
+                                       self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
+                               fill="yellow",
+                               font_size="15"))
             self.plot.add(Text(str()))
         self.data = None
 

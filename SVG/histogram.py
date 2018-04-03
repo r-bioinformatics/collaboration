@@ -5,6 +5,8 @@ from svgwrite.text import Text
 import math
 from SVG.base_figure import Figure
 
+# pylint: dissable=R0902,R0914
+
 
 class Histogram(Figure):
 
@@ -34,11 +36,11 @@ class Histogram(Figure):
         self.binned_data = None
         self.x_label = x_label
 
-    def add_data(self, x):
-        self.data = x
+    def add_data(self, data_set):
+        self.data = data_set
 
-    def add_data_point(self, x):
-        self.data.append(x)
+    def add_data_point(self, data_point):
+        self.data.append(data_point)
 
     def bin_data(self):
         if not self.data:
@@ -54,10 +56,10 @@ class Histogram(Figure):
         for i in range(how_many_bins):
             self.binned_data[i] = 0
 
-        for x in self.data:
-            if x > self.x_max:
+        for x_value in self.data:
+            if x_value > self.x_max:
                 continue
-            bin_num = int(math.floor((x - self.x_min)/self.units_per_bin))
+            bin_num = int(math.floor((x_value - self.x_min) / self.units_per_bin))
             self.binned_data[bin_num] += 1  # floored division.
         for i in range(how_many_bins):
             print(f"{(i * self.units_per_bin) + self.x_min} {self.binned_data[i]}")
@@ -80,10 +82,10 @@ class Histogram(Figure):
                                        self.plottable_y + self.margin_top + 20),
                                fill="yellow", font_size="15"))
             self.plot.add(Text(self.x_label,
-                          insert=(self.plottable_x/2,
-                                  self.plottable_y + self.margin_top + (self.margin_bottom/2) + 15),
-                          fill="yellow",
-                          font_size="15"))
+                               insert=(self.plottable_x / 2,
+                                       self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
+                               fill="yellow",
+                               font_size="15"))
             self.plot.add(Text(str()))
         self.data = None
 
