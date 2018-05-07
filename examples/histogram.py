@@ -15,5 +15,5 @@ def generate_Histogram(self):
     string_hist = hist.to_string()
     print(string_hist)
 
-    hist.to
+    hist.save(filename="svg_examples/histogram.svg")
 
