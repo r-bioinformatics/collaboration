@@ -37,16 +37,17 @@ class Figure(object):
                             # viewBox = ("0 0 " + str(float(length) + 10) + " " + str(float(width) + 10)),
                             preserveAspectRatio="xMinYMin meet")  # , size=('200mm', '150mm'), viewBox=('0 0 200 150'))
 
+        if background:
+            self.plot.add(Rect(insert=(0, 0), size=(self.width, self.height), fill=background))
+
         if x_label:
             self.plottable_y -= 15
             self.add_x_label()
 
         if y_label:
             self.plottable_x -= 15
+            self.margin_left += 15
             self.add_y_label()
-
-        if background:
-            self.plot.add(Rect(insert=(0, 0), size=(self.width, self.height), fill=background))
 
         self.plot.add(Line(start=(self.margin_left - 4, self.margin_top),
                            end=(self.margin_left - 4, self.margin_top + self.plottable_y),
@@ -57,9 +58,6 @@ class Figure(object):
 
         if y_label_max_min:
             self.add_y_max_min(self.y_max, self.y_min)
-
-    def set_filename(self, filename):
-        self.plot.filename = filename
 
     def save(self, reset=True, filename=None):
         if filename:
@@ -73,14 +71,17 @@ class Figure(object):
 
     def add_y_label(self):
         y_coord = self.margin_top + (self.plottable_y/2)
-        text_group = Group(transform=f"rotate({'90'},{'2'},{y_coord})")
+        text_group = Group(transform=f"rotate(270, 15 ,{y_coord})")
 
-        text_group.add(Text(self.y_label, insert=(2, y_coord), fill=self.graph_colour, font_size="15", stroke_width=0))
+        text_group.add(Text(self.y_label, insert=(0, y_coord), fill=self.graph_colour, font_size="15", stroke_width=0))
+        self.plot.add(text_group)
 
     def add_x_label(self):
-        self.plot.add(Text(str(self.x_label),
-                           insert=(self.width/2, self.height-15),
-                           fill=self.graph_colour, font_size="15"))
+        self.plot.add(Text(self.x_label,
+                           insert=(self.plottable_x / 2,
+                                   self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
+                           fill=self.graph_colour,
+                           font_size="15"))
 
     def add_y_max_min(self, max_value, min_value):
         self.plot.add(Text(str(round(max_value, 2)),
