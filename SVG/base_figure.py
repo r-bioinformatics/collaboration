@@ -61,8 +61,13 @@ class Figure(object):
     def set_filename(self, filename):
         self.plot.filename = filename
 
-    def save(self, reset=True):
+    def save(self, reset=True, filename=None):
+        if filename:
+            self.plot.filename = filename
+        elif not self.plot.filename:
+            raise Exception("No Filename set to save SVG image.")
         self.plot.save()
+        print(f"wrote to {self.plot.filename}")
         if reset:
             self.plot = None
 

@@ -28,8 +28,7 @@ class TestScatterPlot(unittest.TestCase):
         # string_hist = scatter.to_string(reset=False)
         # print(string_hist)
 
-        scatter.set_filename("/Users/anthony/temp/scatter.svg")
-        scatter.save()
+        scatter.save(filename="/Users/anthony/temp/scatter.svg")
 
     def test_scatter_plot2(self):
         x_max = 10
@@ -50,5 +49,4 @@ class TestScatterPlot(unittest.TestCase):
         # string_hist = scatter.to_string(reset=False)
         # print(string_hist)
 
-        scatter.set_filename("/Users/anthony/temp/scatter2.svg")
-        scatter.save()
+        scatter.save(filename="/Users/anthony/temp/scatter2.svg")

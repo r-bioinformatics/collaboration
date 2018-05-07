@@ -43,5 +43,4 @@ class TestLogo(unittest.TestCase):
         # string_hist = scatter.to_string(reset=False)
         # print(string_hist)
 
-        logo.set_filename("/tmp/scatter.svg")
-        logo.save()
+        logo.save(filename="/tmp/scatter.svg")
