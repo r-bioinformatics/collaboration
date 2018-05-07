@@ -11,7 +11,7 @@ class Figure(object):
 
     def __init__(self, width=600, height=400, margin_top=20, margin_bottom=40, margin_left=40, margin_right=20,
                  x_min=0, y_min=0, x_max=1, y_max=1, debug=False, graph_colour="midnightblue", background=None,
-                 x_label=None, y_label=None, y_label_max_min=False):
+                 x_label=None, y_label=None, y_label_max_min=True, title=None):
 
         self.width = width
         self.height = height
@@ -27,6 +27,8 @@ class Figure(object):
         self.graph_colour = graph_colour
         self.x_label = x_label
         self.y_label = y_label
+        self.title = title
+        self.font_size = 15
 
         self.plottable_x = self.width - (self.margin_left + self.margin_right)
         self.plottable_y = self.height - (self.margin_top + self.margin_bottom)
@@ -41,13 +43,18 @@ class Figure(object):
             self.plot.add(Rect(insert=(0, 0), size=(self.width, self.height), fill=background))
 
         if x_label:
-            self.plottable_y -= 15
+            self.plottable_y -= self.font_size
             self.add_x_label()
 
         if y_label:
-            self.plottable_x -= 15
-            self.margin_left += 15
+            self.plottable_x -= self.font_size
+            self.margin_left += self.font_size
             self.add_y_label()
+
+        if title:
+            self.plottable_y -= self.font_size + 5
+            self.margin_top += self.font_size + 5
+            self.add_title()
 
         self.plot.add(Line(start=(self.margin_left - 4, self.margin_top),
                            end=(self.margin_left - 4, self.margin_top + self.plottable_y),
@@ -64,14 +71,16 @@ class Figure(object):
             self.plot.filename = filename
         elif not self.plot.filename:
             raise Exception("No Filename set to save SVG image.")
+
         self.plot.save()
         print(f"wrote to {self.plot.filename}")
+
         if reset:
             self.plot = None
 
     def add_y_label(self):
         y_coord = self.margin_top + (self.plottable_y/2)
-        text_group = Group(transform=f"rotate(270, 15 ,{y_coord})")
+        text_group = Group(transform=f"rotate(270, {self.font_size}, {y_coord})")
 
         text_group.add(Text(self.y_label, insert=(0, y_coord), fill=self.graph_colour, font_size="15", stroke_width=0))
         self.plot.add(text_group)
@@ -81,15 +90,21 @@ class Figure(object):
                            insert=(self.plottable_x / 2,
                                    self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
                            fill=self.graph_colour,
-                           font_size="15"))
+                           font_size=self.font_size))
+
+    def add_title(self):
+        self.plot.add(Text(self.title,
+                           insert=(self.plottable_x / 2, self.font_size + 5),
+                           fill=self.graph_colour,
+                           font_size=self.font_size))
 
     def add_y_max_min(self, max_value, min_value):
         self.plot.add(Text(str(round(max_value, 2)),
-                           insert=(2, self.margin_top + 15),
-                           fill=self.graph_colour, font_size="15"))
+                           insert=(15, self.margin_top + 15), text_anchor="end",
+                           fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(Text(str(min_value),
-                           insert=(2, self.margin_top + self.plottable_y),
-                           fill=self.graph_colour, font_size="15"))
+                           insert=(15, self.margin_top + self.plottable_y),
+                           fill=self.graph_colour, font_size=self.font_size))
 
     def add_x_column_labels(self, column_positions, column_labels, rotate=None):
         for gene in column_labels:
@@ -97,7 +112,7 @@ class Figure(object):
                                          f"{self.margin_top + self.plottable_y + 17})")
 
             text_group.add(Text(gene, insert=(column_positions[gene], self.margin_top + self.plottable_y + 17),
-                                fill=self.graph_colour, font_size="15", stroke_width=0))
+                                fill=self.graph_colour, font_size=self.font_size, stroke_width=0))
             self.plot.add(text_group)
 
     def to_string(self, reset=True):
@@ -109,14 +124,14 @@ class Figure(object):
     def add_max_min_text(self):
         self.plot.add(
             Text(str(self.x_max), insert=(self.plottable_x, self.margin_top + self.plottable_y + 20.0),
-                 fill=self.graph_colour, font_size="15"))
+                 fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(
             Text(str(self.x_min), insert=(self.margin_left, self.margin_top + self.plottable_y + 20.0),
-                 fill=self.graph_colour, font_size="15"))
+                 fill=self.graph_colour, font_size=self.font_size))
 
         self.plot.add(
             Text(str(self.y_max), insert=(3, self.margin_top + 10),
-                 fill=self.graph_colour, font_size="15"))
+                 fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(
             Text(str(self.y_min), insert=(3, self.margin_top + self.plottable_y),
-                 fill=self.graph_colour, font_size="15"))
+                 fill=self.graph_colour, font_size=self.font_size))

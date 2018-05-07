@@ -12,7 +12,7 @@ class Histogram(Figure):
 
     def __init__(self, units_per_bin, width=800, height=600, debug=False, gap=5, x_min=None, x_max=None, y_min=0,
                  y_max=0, margin_top=20, margin_bottom=40, margin_left=20, margin_right=20, x_label="x_label",
-                 graph_colour="midnight_blue"):
+                 y_label="y_label", graph_colour="midnightblue", background="white", title="Your Histogram"):
         Figure.__init__(self, width=width,
                         height=height,
                         margin_top=margin_top,
@@ -24,7 +24,11 @@ class Histogram(Figure):
                         margin_left=margin_left,
                         margin_right=margin_right,
                         debug=debug,
-                        graph_colour=graph_colour)
+                        graph_colour=graph_colour,
+                        background=background,
+                        y_label=y_label,
+                        x_label=x_label,
+                        title=title)
         self.units_per_bin = units_per_bin
         self.data_max = 0
 
@@ -34,7 +38,6 @@ class Histogram(Figure):
 
         self.data = []
         self.binned_data = None
-        self.x_label = x_label
 
     def add_data(self, data_set):
         self.data = data_set
@@ -53,7 +56,7 @@ class Histogram(Figure):
         how_many_bins = int(math.ceil((float(self.x_max) - self.x_min) / self.units_per_bin))
 
         self.binned_data = {}
-        for i in range(how_many_bins):
+        for i in range(how_many_bins + 1):
             self.binned_data[i] = 0
 
         for x_value in self.data:
@@ -80,11 +83,11 @@ class Histogram(Figure):
             self.plot.add(Text(str((i * self.units_per_bin) + self.x_min),
                                insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
                                        self.plottable_y + self.margin_top + 20),
-                               fill="yellow", font_size="15"))
-            self.plot.add(Text(self.x_label,
-                               insert=(self.plottable_x / 2,
-                                       self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
-                               fill="yellow",
-                               font_size="15"))
-            self.plot.add(Text(str()))
+                               fill=self.graph_colour, font_size="15"))
+            # self.plot.add(Text(self.x_label,
+            #                    insert=(self.plottable_x / 2,
+            #                            self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
+            #                    fill="yellow",
+            #                    font_size="15"))
+
         self.data = None
