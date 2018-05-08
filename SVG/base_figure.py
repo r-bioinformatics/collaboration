@@ -101,10 +101,10 @@ class Figure(object):
 
     def add_y_max_min(self, max_value, min_value):
         self.plot.add(Text(str(round(max_value, 2)),
-                           insert=(self.margin_left - 6, self.margin_top + 15), text_anchor="end",
+                           insert=(self.margin_left - 8, self.margin_top + 15), text_anchor="end",
                            fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(Text(str(min_value),
-                           insert=(self.margin_left - 6, self.margin_top + self.plottable_y),
+                           insert=(self.margin_left - 8, self.margin_top + self.plottable_y),
                            text_anchor="end",
                            fill=self.graph_colour, font_size=self.font_size))
 
