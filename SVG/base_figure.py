@@ -132,8 +132,8 @@ class Figure(object):
                  fill=self.graph_colour, font_size=self.font_size))
 
         self.plot.add(
-            Text(str(self.y_max), insert=(3, self.margin_top + 10),
+            Text(str(self.y_max), insert=(self.margin_left - 8, self.margin_top + 10), text_anchor="end",
                  fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(
-            Text(str(self.y_min), insert=(3, self.margin_top + self.plottable_y),
+            Text(str(self.y_min), insert=(self.margin_left - 8, self.margin_top + self.plottable_y), text_anchor="end",
                  fill=self.graph_colour, font_size=self.font_size))

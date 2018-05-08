@@ -15,7 +15,7 @@ class ScatterPlot(Figure):
 
     def __init__(self, x_max=100, y_max=100, width=1800, height=900, x_min=0, y_min=0, debug=True,
                  margin_top=20, margin_bottom=30, margin_left=30, margin_right=20, background_colour="white",
-                 autoscale=False, x_label=None, y_label=None):
+                 autoscale=False, x_label=None, y_label=None, title=None):
         """
         Initialize this object - you need to pass it a mongo object for it to
         operate on.
@@ -23,7 +23,7 @@ class ScatterPlot(Figure):
         Figure.__init__(self, x_max=x_max, y_max=y_max, x_min=x_min, y_min=y_min,
                         width=width, height=height, margin_top=margin_top, margin_bottom=margin_bottom,
                         margin_left=margin_left, margin_right=margin_right, debug=debug, background=background_colour,
-                        x_label=x_label, y_label=y_label)
+                        x_label=x_label, y_label=y_label, title=title)
         self.data = None
         self.autoscale = autoscale
         self.add_max_min_text()
