@@ -125,8 +125,9 @@ class Figure(object):
 
     def add_max_min_text(self):
         self.plot.add(
-            Text(str(self.x_max), insert=(self.plottable_x, self.margin_top + self.plottable_y + 20.0),
-                 fill=self.graph_colour, font_size=self.font_size))
+            Text(str(self.x_max), insert=(self.margin_left + self.plottable_x,
+                                          self.margin_top + self.plottable_y + 20.0),
+                 text_anchor="end", fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(
             Text(str(self.x_min), insert=(self.margin_left, self.margin_top + self.plottable_y + 20.0),
                  fill=self.graph_colour, font_size=self.font_size))
