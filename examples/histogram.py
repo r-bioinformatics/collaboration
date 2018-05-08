@@ -9,7 +9,6 @@ def generate_Histogram():
     hist = Histogram(units_per_bin=1, background="white")
     data = [randrange(10) for _ in range(1000)]
     hist.add_data(data)
-    hist.bin_data()
     hist.build()
     hist.save(filename="../svg_examples/histogram.svg")
 

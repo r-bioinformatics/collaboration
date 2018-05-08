@@ -45,9 +45,9 @@ class Histogram(Figure):
     def add_data_point(self, data_point):
         self.data.append(data_point)
 
-    def bin_data(self):
+    def build(self):
         if not self.data:
-            return False
+            raise Exception("No data provided for histogram.")
 
         if self.x_max is None:
             self.x_max = math.ceil(max(self.data))
@@ -64,14 +64,25 @@ class Histogram(Figure):
                 continue
             bin_num = int(math.floor((x_value - self.x_min) / self.units_per_bin))
             self.binned_data[bin_num] += 1  # floored division.
-        for i in range(how_many_bins):
-            print(f"{(i * self.units_per_bin) + self.x_min} {self.binned_data[i]}")
         self.data_max = max(self.binned_data.values())
-        return True
 
-    def build(self):
         bin_count = len(self.binned_data) + 1
         bin_width = (self.plottable_x - (bin_count + 1) + self.gap) // bin_count  # floored division
+
+        if self.y_label_max_min and not self.y_max:
+            self.y_max = 0
+            for count in self.binned_data.values():
+                if count > self.y_max:
+                    self.y_max = count
+        if self.y_label_max_min and not self.y_min:
+            self.y_min = 0
+            for count in self.binned_data.values():
+                if count < self.y_min:
+                    self.y_min = count
+
+        if self.y_label_max_min:
+            self.add_y_max_min(self.y_max, self.y_min)
+
         if bin_width < 1:
             bin_width = 1
         for i in range(len(self.binned_data)):
@@ -84,10 +95,5 @@ class Histogram(Figure):
                                insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
                                        self.plottable_y + self.margin_top + 20),
                                fill=self.graph_colour, font_size="15"))
-            # self.plot.add(Text(self.x_label,
-            #                    insert=(self.plottable_x / 2,
-            #                            self.plottable_y + self.margin_top + (self.margin_bottom / 2) + 15),
-            #                    fill="yellow",
-            #                    font_size="15"))
 
         self.data = None

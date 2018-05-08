@@ -10,7 +10,7 @@ from svgwrite.container import Group
 class Figure(object):
 
     def __init__(self, width=600, height=400, margin_top=20, margin_bottom=40, margin_left=40, margin_right=20,
-                 x_min=0, y_min=0, x_max=1, y_max=1, debug=False, graph_colour="midnightblue", background=None,
+                 x_min=0, y_min=None, x_max=1, y_max=None, debug=False, graph_colour="midnightblue", background=None,
                  x_label=None, y_label=None, y_label_max_min=True, title=None):
 
         self.width = width
@@ -27,6 +27,7 @@ class Figure(object):
         self.graph_colour = graph_colour
         self.x_label = x_label
         self.y_label = y_label
+        self.y_label_max_min = y_label_max_min
         self.title = title
         self.font_size = 15
 
@@ -63,7 +64,7 @@ class Figure(object):
                            end=(self.margin_left + self.plottable_x, self.margin_top + self.plottable_y + 4),
                            stroke_width=1, stroke=self.graph_colour))
 
-        if y_label_max_min:
+        if self.y_label_max_min and self.y_max and self.y_min:
             self.add_y_max_min(self.y_max, self.y_min)
 
     def save(self, reset=True, filename=None):
@@ -100,10 +101,11 @@ class Figure(object):
 
     def add_y_max_min(self, max_value, min_value):
         self.plot.add(Text(str(round(max_value, 2)),
-                           insert=(15, self.margin_top + 15), text_anchor="end",
+                           insert=(self.margin_left - 6, self.margin_top + 15), text_anchor="end",
                            fill=self.graph_colour, font_size=self.font_size))
         self.plot.add(Text(str(min_value),
-                           insert=(15, self.margin_top + self.plottable_y),
+                           insert=(self.margin_left - 6, self.margin_top + self.plottable_y),
+                           text_anchor="end",
                            fill=self.graph_colour, font_size=self.font_size))
 
     def add_x_column_labels(self, column_positions, column_labels, rotate=None):
