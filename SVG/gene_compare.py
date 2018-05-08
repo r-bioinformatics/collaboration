@@ -15,7 +15,7 @@ from SVG.colour_helper import ColourHelper
 class GeneCompare(Figure):
 
     def __init__(self, x_categories, width=1800, height=900, debug=False, gap=5, x_min=None, x_max=None,
-                 y_min=0, y_max=0, margin_top=20, margin_bottom=155, margin_left=20, margin_right=20, x_label="x_label",
+                 y_min=0, y_max=0, margin_top=40, margin_bottom=155, margin_left=60, margin_right=20, x_label=None,
                  y_label=None, graph_colour="black", background_colour="white", log_graph=False, group_legend=False):
         Figure.__init__(self, width=width,
                         height=height,
