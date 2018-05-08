@@ -3,8 +3,6 @@ from random import random
 from math import floor
 from SVG.gene_compare import GeneCompare
 
-# pylint: disable=R0902,R0914
-
 
 def compare_genes():
 
