@@ -1,5 +1,0 @@
-svgwrite
-
-[testing]
-pytest
-pytest-cov
