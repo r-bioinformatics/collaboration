@@ -1,13 +1,13 @@
-
-
+import time
+from math import fabs
 from svgwrite.shapes import Rect
 from svgwrite.text import Text
 from svgwrite.drawing import Drawing
-from math import fabs
 
-import time
-from SVG.plot_utilities import add_cpg, get_axis, bigfont, medfont, smallfont, legend_color
+from SVG.plot_utilities import add_cpg, get_axis, BIG_FONT, MED_FONT, SMALL_FONT, LEGEND_COLOUR
 
+
+# pylint: disable=R0902
 
 class Plot(object):
     """
@@ -78,22 +78,23 @@ class Plot(object):
         """ path points will be at (-3stddev,0), (0,height), (3stddev,0)
             Control points at (-1stddev,0), (-1stddev,height), (1stddev,height), (1stddev,0)
          """
-        x = [-sigmas * stddev, -1 * stddev, -1 * stddev, 0, stddev, stddev, sigmas * stddev]
-        y = [0, 0, height, height, height, 0, 0]
+        x_values = [-sigmas * stddev, -1 * stddev, -1 * stddev, 0, stddev, stddev, sigmas * stddev]
+        y_values = [0, 0, height, height, height, 0, 0]
 
         if horizontal is True:
-            x = [round((x - self.start + pos) * self.scale_x, 2) + self.MARGIN for x in x]
+            x_values = [round((x - self.start + pos) * self.scale_x, 2) + self.MARGIN for x in x_values]
             # Scale Y and inverse the coordinates
-            y = [round(y1 * self.scale_y, 2) for y1 in y]
-            y = [(self.height - self.BOTTOM_MARGIN - y2) for y2 in y]
+            y_values = [round(y1 * self.scale_y, 2) for y1 in y_values]
+            y_values = [(self.height - self.BOTTOM_MARGIN - y2) for y2 in y_values]
         else:
-            s = [round(((pos - self.start) * self.scale_x) + y + self.MARGIN + self.DISTR_SHIFT, 2) for y in y]
-            y = [round(((x + y_median) * self.scale_y), 2) for x in x]
-            x = s
-        d = "M " + str(x[0]) + "," + str(y[0]) + " C"  # point 1
+            switch = [round(((pos - self.start) * self.scale_x) + y + self.MARGIN + self.DISTR_SHIFT, 2) for y in
+                      y_values]
+            y_values = [round(((x + y_median) * self.scale_y), 2) for x in x_values]
+            x_values = switch
+        d_str = "M " + str(x_values[0]) + "," + str(y_values[0]) + " C"  # point 1
         for i in range(1, 7):
-            d += " " + str(x[i]) + "," + str(y[i])
-        return d
+            d_str += " " + str(x_values[i]) + "," + str(y_values[i])
+        return d_str
 
     @staticmethod
     def filter_waves(waves):
@@ -125,15 +126,15 @@ class Plot(object):
     def to_string(self):
         """ convert the loaded elements to strings and return the list of elements"""
         magic_box = Text(" ", id="sample_name", insert=((self.MARGIN + 20), (self.MARGIN + 20)),
-                         fill="black", font_size=medfont)
+                         fill="black", font_size=MED_FONT)
         self.elements.append(magic_box)
 
-        t0 = time.time()
+        t_0 = time.time()
         temp = [self.plot.tostring().replace("</svg>", "")]
         for element in self.elements:
             temp.append(element.tostring())
         temp.append("</svg>")
-        print(" Conversion of SVG to string took {} seconds".format(time.time() - t0))
+        print(f" Conversion of SVG to string took {time.time() - t_0} seconds")
         return ''.join(t for t in temp)
 
     def get_xml(self):
@@ -146,9 +147,9 @@ class Plot(object):
     def add_legends(self, get_cpg, annotations):
         """ Add annotations, title, axis, tic marks and labels """
 
-        title = Text(self.title, insert=(bigfont + ((float(self.MARGIN) - bigfont) / 3),
-                                         bigfont + ((float(self.MARGIN) - bigfont) / 3)),
-                     fill=legend_color, font_size=bigfont)
+        title = Text(self.title, insert=(BIG_FONT + ((float(self.MARGIN) - BIG_FONT) / 3),
+                                         BIG_FONT + ((float(self.MARGIN) - BIG_FONT) / 3)),
+                     fill=LEGEND_COLOUR, font_size=BIG_FONT)
         self.elements.append(title)
 
         for axis in get_axis(self.width, self.MARGIN, self.height, self.BOTTOM_MARGIN, self.RIGHT_MARGIN):
@@ -179,13 +180,13 @@ class Plot(object):
                        (self.MARGIN + (xtics[0] - self.start) * self.scale_x)) / 4
         for tic in xtics:
             tic_x = (self.MARGIN + (tic - self.start) * self.scale_x)
-            tic_y = self.height - self.BOTTOM_MARGIN + smallfont * 1.5
-            ticmarker = (Text(str(tic), insert=(tic_x, tic_y), fill=legend_color, font_size=smallfont))
-            ticline = Rect(insert=(tic_x, self.height - self.BOTTOM_MARGIN - 2), size=(1, 5), fill=legend_color)
+            tic_y = self.height - self.BOTTOM_MARGIN + SMALL_FONT * 1.5
+            ticmarker = (Text(str(tic), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
+            ticline = Rect(insert=(tic_x, self.height - self.BOTTOM_MARGIN - 2), size=(1, 5), fill=LEGEND_COLOUR)
             for i in range(1, 4):
                 if tic_x - spacing * i > self.MARGIN - 5:
                     ticline2 = Rect(insert=(tic_x - spacing * i, self.height - self.BOTTOM_MARGIN - 2), size=(1, 2),
-                                    fill=legend_color)
+                                    fill=LEGEND_COLOUR)
                     self.elements.append(ticline2)
             self.elements.append(ticline)
             self.elements.append(ticmarker)
@@ -199,11 +200,11 @@ class Plot(object):
         ytics = [round(self.height - self.BOTTOM_MARGIN - (self.dimension_y / 5 * y), 3) for y in range(0, 6)]
         spacing = (ytics[0] - ytics[1]) / 2
         for tic, label in zip(ytics, labels):
-            ticline = Rect(insert=(self.MARGIN - 2, tic), size=(5, 1), fill=legend_color)
+            ticline = Rect(insert=(self.MARGIN - 2, tic), size=(5, 1), fill=LEGEND_COLOUR)
             if tic - spacing > self.MARGIN:
-                ticline2 = Rect(insert=(self.MARGIN - 2, tic - spacing), size=(2, 1), fill=legend_color)
+                ticline2 = Rect(insert=(self.MARGIN - 2, tic - spacing), size=(2, 1), fill=LEGEND_COLOUR)
                 self.elements.append(ticline2)
-            tic_x = self.MARGIN - smallfont * 2
+            tic_x = self.MARGIN - SMALL_FONT * 2
             tic_y = tic + 1
             if len(str(label)) == 1:
                 tic_x += 3
@@ -211,7 +212,7 @@ class Plot(object):
                 tic_x += 2
             if len(str(label)) >= 3:
                 tic_x -= 10
-            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=legend_color, font_size=smallfont))
+            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
             self.elements.append(ticline)
             self.elements.append(ticmarker)
 
@@ -222,17 +223,17 @@ class Plot(object):
         spacing = (ytics[0] - ytics[1]) / 2
         for tic, label in zip(ytics, labels):
 
-            ticline = Rect(insert=(self.width - self.RIGHT_MARGIN, tic), size=(5, 1), fill=legend_color)
+            ticline = Rect(insert=(self.width - self.RIGHT_MARGIN, tic), size=(5, 1), fill=LEGEND_COLOUR)
             if tic - spacing > self.MARGIN:
-                ticline2 = Rect(insert=(self.width - self.RIGHT_MARGIN, tic - spacing), size=(2, 1), fill=legend_color)
+                ticline2 = Rect(insert=(self.width - self.RIGHT_MARGIN, tic - spacing), size=(2, 1), fill=LEGEND_COLOUR)
                 self.elements.append(ticline2)
-            tic_x = self.width - self.RIGHT_MARGIN + smallfont
+            tic_x = self.width - self.RIGHT_MARGIN + SMALL_FONT
             tic_y = tic + 1
             if len(str(label)) == 1:
                 tic_x += 3
             if len(str(label)) == 2:
                 tic_x += 2
-            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=legend_color, font_size=smallfont))
+            ticmarker = (Text(str(label), insert=(tic_x, tic_y), fill=LEGEND_COLOUR, font_size=SMALL_FONT))
             self.elements.append(ticline)
             self.elements.append(ticmarker)
 
@@ -257,16 +258,17 @@ class Plot(object):
                 # print "(self.width + self.RIGHT_MARGIN + self.MARGIN)", (self.width - self.RIGHT_MARGIN)
                 # print "gene -> text:{} chrend:{} chrstart:{} start:{} length:{}"
                 #       .format(gene['name'], gene['end'], gene['start'], start, length)_
-                g = Rect(insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 4),
-                         size=(length, 2), fill="grey")
-                t = (Text(text, insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 9),
-                          fill=legend_color, font_size=smallfont))
-                self.elements.append(g)
+                g_rect = Rect(insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 4),
+                              size=(length, 2), fill="grey")
+                g_text = (Text(text, insert=(start, self.height - self.BOTTOM_MARGIN + self.gene_offset + 9),
+                               fill=LEGEND_COLOUR, font_size=SMALL_FONT))
+                self.elements.append(g_rect)
+                self.elements.append(g_text)
 
                 for exon in gene["transcripts"][transcript]["exons"]:
-                    e = gene["transcripts"][transcript]["exons"][exon]
-                    e_start = self.convert_xcoord_to_pos(e["start"])
-                    e_len = self.convert_xcoord_to_pos(e['end']) - e_start
+                    exon_info = gene["transcripts"][transcript]["exons"][exon]
+                    e_start = self.convert_xcoord_to_pos(exon_info["start"])
+                    e_len = self.convert_xcoord_to_pos(exon_info['end']) - e_start
                     if e_start > (self.width - self.RIGHT_MARGIN) or (e_start + e_len) < self.MARGIN:
                         continue
                     if e_start < self.MARGIN:
@@ -274,11 +276,10 @@ class Plot(object):
                     if e_start + e_len > (self.width - self.RIGHT_MARGIN):
                         e_len = (self.width - self.RIGHT_MARGIN) - e_start
 
-                    e = Rect(insert=(e_start, self.height - self.BOTTOM_MARGIN + self.gene_offset), size=(e_len, 9),
-                             fill="grey")
-                    self.elements.append(e)
+                    e_rect = Rect(insert=(e_start, self.height - self.BOTTOM_MARGIN + self.gene_offset),
+                                  size=(e_len, 9), fill="grey")
+                    self.elements.append(e_rect)
 
-                self.elements.append(t)
                 self.gene_offset += 12
                 if self.gene_offset > 250:
                     self.gene_offset = self.GENE_OFFSET

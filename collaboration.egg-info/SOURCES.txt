@@ -1,0 +1,17 @@
+README.md
+setup.py
+SVG/__init__.py
+SVG/base_figure.py
+SVG/colour_helper.py
+SVG/gene_compare.py
+SVG/histogram.py
+SVG/plot_utilities.py
+SVG/scatter_plot.py
+SVG/svgplot.py
+collaboration.egg-info/PKG-INFO
+collaboration.egg-info/SOURCES.txt
+collaboration.egg-info/dependency_links.txt
+collaboration.egg-info/entry_points.txt
+collaboration.egg-info/not-zip-safe
+collaboration.egg-info/requires.txt
+collaboration.egg-info/top_level.txt
