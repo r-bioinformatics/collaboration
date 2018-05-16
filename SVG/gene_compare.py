@@ -90,7 +90,7 @@ class GeneCompare(Figure):
                 values[gene][category] = []
             values[gene][category].append(float(item[2]))
 
-        max_value = -99999999999999
+        max_value = -99999999999999 if not self.log_graph else 1
         min_value = 1 if self.log_graph else 0
         for gene in values:
             for category in values[gene]:
