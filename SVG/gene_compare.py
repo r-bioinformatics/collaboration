@@ -105,6 +105,7 @@ class GeneCompare(Figure):
             column_pos[gene] = ((idx + 1) * self.plottable_x / (num_columns + 1)) + self.margin_left
 
         if self.log_graph:
+            print(f"max_value = {max_value}, min_value={min_value}")
             self.background_lines(max_value, log10(max_value), log10(min_value))
             self.plot_data(column_pos, log10(max_value), log10(min_value))
 
