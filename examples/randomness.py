@@ -103,6 +103,8 @@ def main():
 
     default_class.viz.save(filename=args.svg_file)
 
+    print(f"{default_class.viz.over_called_pixels} pixels overrepresented.")
+
 
 if __name__ == "__main__":
     main()

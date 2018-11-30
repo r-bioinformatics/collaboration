@@ -32,6 +32,7 @@ class RandomVisualization(Figure):
         self.current_map = [[0 for _y in range(self.plottable_y)] for _x in range(self.plottable_x)]
         print(f"len {len(self.current_map)} x {len(self.current_map[0])}")
         self.last_full_row = 0
+        self.over_called_pixels = 0
 
     def put_pixels(self, colour, pixels):
         for i in range(pixels):
@@ -140,6 +141,9 @@ class RandomVisualization(Figure):
                                size=(abs(x_other-x)+1, 1),
                                fill=rgb(colour[0], colour[1], colour[2])))
             i += abs(x_other - x) + 1
+            if i < 0:
+                self.over_called_pixels += abs(i)
+
             x = max(x_other, x) if direction else min(x_other, x)
             y += 1
             direction = not direction
