@@ -37,6 +37,9 @@ aa_to_int = {
     'P': 19}
 
 
+ITEMS_TO_DISPLAY = 100
+
+
 class RandomnessGenerator:
 
     def __init__(self, file):
@@ -76,12 +79,16 @@ class RandomnessGenerator:
         return colour
 
     def run(self):
+        row_direction = True
         for item in self.data:
+            hit_a_wall = False
             pixels = item['len']
             seq = item['seq']
             colour = self.seq_to_colour(seq)
             if colour:
-                self.viz.put_pixels_var1(colour, pixels)
+                hit_a_wall = self.viz.put_pixels_var1(colour, pixels, row_direction)
+            if hit_a_wall:
+                row_direction = not row_direction
 
 
 def main():
