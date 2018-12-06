@@ -1,6 +1,5 @@
 """Class for generating in-house Histograms"""
 
-from svgwrite.shapes import Rect
 from svgwrite.text import Text
 from SVG.base_figure import Figure
 from svgwrite import rgb
@@ -13,7 +12,7 @@ HYDROPHOBICITY_COLOUR = {'L': (0, 0, 255),
                          'I': (0, 0, 255),
                          'F': (0, 0, 255),
                          'W': (0, 0, 255),
-                         'V': (0, 255, 255),
+                         'V': (0, 125, 255),
                          'M': (0, 255, 255),
                          'C': (0, 255, 0),
                          'Y': (0, 255, 0),
@@ -24,16 +23,17 @@ HYDROPHOBICITY_COLOUR = {'L': (0, 0, 255),
                          'S': (125, 255, 0),
                          'Q': (125, 255, 0),
                          'D': (255, 0, 0),
-                         'R': (255, 255, 0),
-                         'K': (255, 255, 0),
-                         'N': (255, 255, 0),
-                         'H': (125, 125, 0),
+                         'R': (200, 200, 0),
+                         'K': (200, 200, 0),
+                         'N': (200, 200, 0),
+                         'H': (125, 75, 0),
                          'P': (255, 0, 0)}
 
 
 class Logo(Figure):
 
-    def __init__(self, units_per_bin, sequence_dict, width=800, height=600, debug=False, gap=5, x_min=None, x_max=None, y_min=0,
+    def __init__(self, units_per_bin, sequence_dict, width=800, height=600, debug=False, gap=5, x_min=None,
+                 x_max=None, y_min=0,
                  y_max=0, margin_top=20, margin_bottom=40, margin_left=20, margin_right=20, x_label=None,
                  graph_colour="black"):
         Figure.__init__(self, width=width,
@@ -69,6 +69,8 @@ class Logo(Figure):
             bottom = self.plottable_y + self.margin_top
             for letter, value in sorted(list(self.data[i].items()), key=lambda x: -x[1]):
                 size = float(self.data[i][letter]/s) * self.plottable_y
+                if size < 10:
+                    continue
                 colour = HYDROPHOBICITY_COLOUR[letter]
                 self.plot.add(Text(letter,
                                    insert=(self.margin_left + self.gap + (i * (bin_width + self.gap)),
