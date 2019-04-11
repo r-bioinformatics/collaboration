@@ -68,8 +68,8 @@ class RandomnessGenerator:
 
     @staticmethod
     def seq_to_colour(seq):
-        if len(seq) != 7:
-            return None
+        if len(seq) < 7:
+            seq = seq.ljust(7, 'G')
 
         r = math.floor((aa_to_int[seq[0]] + aa_to_int[seq[1]]) * 6.35)
         g = math.floor((aa_to_int[seq[2]] + aa_to_int[seq[3]]) * 6.35)
