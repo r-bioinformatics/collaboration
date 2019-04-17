@@ -15,7 +15,7 @@ from svgwrite.shapes import Rect
 class RandomVisualization(Figure):
     """A simple scatter diagram plot."""
 
-    def __init__(self, x_max=100, y_max=100, width=700, height=900, x_min=0, y_min=0, debug=True,
+    def __init__(self, x_max=100, y_max=100, width=1000, height=2000, x_min=0, y_min=0, debug=True,
                  margin_top=20, margin_bottom=30, margin_left=30, margin_right=20, background_colour="white",
                  x_label=None, y_label=None, title=None):
 
@@ -81,7 +81,7 @@ class RandomVisualization(Figure):
 
         while i < pixels:
 
-            under_pixels_used =0
+            under_pixels_used = 0
             x_other = x  # other side of the
 
             if direction:
